@@ -122,5 +122,5 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-Image_Size= os.environ.get('Image_size',1048576)
+Image_Size= os.environ.get('Image_size',2000000)
 Image_Type= os.environ.get('Image_Type',(".jpg",".jpeg",".png"))
