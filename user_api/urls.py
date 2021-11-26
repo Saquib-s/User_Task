@@ -1,6 +1,10 @@
+from .views import User_view
+from .views import User_view
 from django.urls import path
-from .import views
 
-urlpatterns =[
-    path('', views.User_view, name='User_view'),
+urlpatterns = [
+    path('usr/',User_view.as_view()),
+    path('usr/<int:id>/', User_view.as_view())
+
+
 ]

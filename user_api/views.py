@@ -1,35 +1,48 @@
-from django.shortcuts import render
-from isort import Config
-
-from .forms import UserForm
-from django.http import HttpResponseRedirect
 
 # Create your views here.
 
-def User_view(request):
-    if request.method == "POST":
-        form = UserForm(request.POST)
-        if form.is_valid():
-            form.save()
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from .models import user_model
+from .serilizer import User_Serializer
+
+
+# Create your views here.
+class User_view(APIView):
+    def post(self, request):
+        user_data = User_Serializer(data=request.data)
+        if user_data.is_valid():
+            user_data.save()
+            return Response(user_data.data)
         else:
-            return render (request,{'form':form})
+            return Response("not exists")
 
-    form = UserForm()
-    return render(request,{'form':form})
+    def get(self,request):
+        dept_data = user_model.objects.all()
+        serializer = User_Serializer(dept_data,many=True)
+        return Response(serializer.data)
 
 
-def check_size(image):
-    image.seek(0,2)
-    size = image.tell()
-    if int(size) > int(Config.Image_Size):
-        return False
-    return True
 
-def get_client_ip(request):
-    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-    if x_forwarded_for:
-        ip = x_forwarded_for.split(',')[0]
-    else:
-        ip = request.META.get('REMOTE_ADDR')
-    return ip
+
+
+
+
+
+
+
+# def check_size(image):
+#     image.seek(0,2)
+#     size = image.tell()
+#     if int(size) > int(Config.Image_Size):
+#         return False
+#     return True
+#
+# def get_client_ip(request):
+#     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+#     if x_forwarded_for:
+#         ip = x_forwarded_for.split(',')[0]
+#     else:
+#         ip = request.META.get('REMOTE_ADDR')
+#     return ip
 
