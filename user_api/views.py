@@ -6,7 +6,6 @@ from rest_framework.response import Response
 from .models import user_model
 from .serilizer import User_Serializer
 
-
 # Create your views here.
 class User_view(APIView):
     def post(self, request):
@@ -23,26 +22,25 @@ class User_view(APIView):
         return Response(serializer.data)
 
 
+class check_size(APIView):
+    def get(self,request,image):
+        image.seek(0, 2)
+        size = image.tell()
+        if int(size) > int(Config.Image_Size):
+            return False
+        return True
+
+
+class get_client_ip(APIView):
+    def get(self,request):
+        x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+        if x_forwarded_for:
+            ip = x_forwarded_for.split(',')[0]
+        else:
+            ip = request.META.get('REMOTE_ADDR')
+        return ip
 
 
 
 
-
-
-
-
-# def check_size(image):
-#     image.seek(0,2)
-#     size = image.tell()
-#     if int(size) > int(Config.Image_Size):
-#         return False
-#     return True
-#
-# def get_client_ip(request):
-#     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-#     if x_forwarded_for:
-#         ip = x_forwarded_for.split(',')[0]
-#     else:
-#         ip = request.META.get('REMOTE_ADDR')
-#     return ip
 
