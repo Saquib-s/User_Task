@@ -8,9 +8,7 @@ from .models import user_model
 
 
 class User_Serializer(serializers.ModelSerializer):
-    phone_number = PhoneNumberField(
-        widget=PhoneNumberPrefixWidget(initial='IN')
-    )
+    phone_number = PhoneNumberField()
     class Meta:
         model = user_model
         fields = '__all__'
