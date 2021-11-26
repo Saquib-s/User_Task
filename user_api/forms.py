@@ -11,15 +11,8 @@ class UserForm(forms.ModelForm):
     phone_number = PhoneNumberField(
         widget=PhoneNumberPrefixWidget(initial='IN')
     )
-    ip, is_routable = get_client_ip()
-    if ip is None:
-        ip = "0.0.0.0"
 
     class Meta:
         model = user_model
         fields = "__all__"
 
-    def clean(self):
-        image = self.cleaned_data.get('image')
-        if image > 2345678:
-            self._errors["image"] = ErrorList([u"Image too heavy."])
