@@ -40,6 +40,8 @@ class get_client_ip(APIView):
             ip = request.META.get('REMOTE_ADDR')
         return ip
 
+    
+
 
 
 
